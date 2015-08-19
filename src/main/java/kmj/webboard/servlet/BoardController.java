@@ -1,7 +1,8 @@
 package kmj.webboard.servlet;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -10,9 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kmj.webboard.action.DoJoinAction;
+import kmj.webboard.action.DoLoginAction;
+import kmj.webboard.action.IAction;
+import kmj.webboard.action.JoinAction;
+import kmj.webboard.action.NotFoundAction;
+import kmj.webboard.action.UserListAction;
+import kmj.webboard.action.View;
+import kmj.webboard.action.page.PageAction;
 import kmj.webboard.dao.UserDao;
 
-import kmj.webboard.model.UserVO;
+import kmj.webboard.util.PathUtil;
 
 /**
  * 
@@ -25,8 +34,9 @@ public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext ctx;
 	
-	private UserDao userDao = new UserDao();
+	private UserDao userDao;
        
+	private Map<String, IAction> actionMap = new HashMap<>();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -43,6 +53,15 @@ public class BoardController extends HttpServlet {
     	
     	userDao = (UserDao) ctx.getAttribute("dao.user");
     	
+    	actionMap.put("get:/board", new PageAction("/WEB-INF/jsp/index.jsp"));
+    	actionMap.put("get:/board/login", new PageAction("/WEB-INF/jsp/login.jsp"));
+    	actionMap.put("get:/board/join", new JoinAction());
+    	actionMap.put("get:/board/users", new UserListAction());
+    	
+    	actionMap.put("post:/board/join", new DoJoinAction());
+    	actionMap.put("post:/board/login", new DoLoginAction());
+    	
+    	actionMap.put("_notfound_", new NotFoundAction());
     }
 
 	/**
@@ -50,71 +69,51 @@ public class BoardController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("[doGet]클라이언트로부터 요청이 들어왔음");
-		String uri = request.getRequestURI();
+		String uri = PathUtil.stripURI(ctx, request.getRequestURI());
 		System.out.println("GET uri: " + uri);
+		ServletContext ctx =getServletContext();
 		
-		if ( uri.endsWith("/join")) { //  /WebBoard/board/join
-			ctx.getRequestDispatcher("/join.jsp").forward(request, response);
-		} else if ( uri.endsWith("/yes")) {
-			System.out.println("/yes 요청");
-			
-			request.setAttribute("hi", "hi hi hi");
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/yes.jsp").forward(request, response);
-		} else if (uri.endsWith("/users")){
-			System.out.println("/users 요청");
-			List<UserVO> users = userDao.finaAllUser();
-			request.setAttribute("alluser", users);
-			
-			getServletContext().getRequestDispatcher("/WEB-INF/jsp/listAllusers.jsp").forward(request, response);		
-		}
-		else {
-			response.setHeader("Content-Type", "text/html; charset=UTF-8");
-			response.getWriter().write("unknown uri: " + uri);
-			response.flushBuffer();
+		IAction action = findAction(request.getMethod(), uri);
+		
+		View view = action.process(ctx, request, response);
+		
+		if ( view != null) {
+		    String resUri = view.getUri();
+		    if ( view.isForward() ) {
+		        ctx.getRequestDispatcher(resUri).forward(request, response);
+		    } else {
+		        response.sendRedirect(resUri);
+		    }
 		}
 	}
 
-	/**
+	private IAction findAction(String method, String uri) {
+	    IAction action = actionMap.get(method.toLowerCase()+":"+uri);
+	    return action != null ? action : actionMap.get("_notfound_");
+    }
+
+    /**
 	 * RESTful uri로 구성: 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("[doPost]클라이언트로부터 요청이 들어왔음");
-		String uri = request.getRequestURI();
+		String uri = PathUtil.stripURI(ctx, request.getRequestURI());
 		System.out.println("POST uri: " + uri);
-		if (uri.endsWith("/doJoin")) {
+		ServletContext ctx =getServletContext();
 
-			request.setCharacterEncoding("UTF-8");
-			 
-			String userId = request.getParameter("userid");
-			String userEmail = request.getParameter("email");
-			String password = request.getParameter("pass");
-			
-			
-				//물어볼것,string 문자 eqauls "";
-			    //boolean 값 넘기기.
-			
-			System.out.println(String.format("userId:%s, password:%s", userId,
-					password));
-
-			try {
-				UserVO user = userDao.insertUser(userId, userEmail, password);
-				request.setAttribute("user", user);
-				ctx.getRequestDispatcher("/join-ok.jsp").forward(request, response);
-				
-			} catch (Exception e) { //예외 발생시
-				System.out.println("예외발생");
-		       
-			    ctx.getRequestDispatcher("/join.jsp").forward(request, response);
-			}
-			
-			
-
-		} else {
-			response.setHeader("Content-Type", "text/html; charset=UTF-8");
-			response.getWriter().write("unknown uri: " + uri);
-			response.flushBuffer();
-		}
+		IAction action = findAction(request.getMethod(), uri);
+        
+        View view = action.process(ctx, request, response);
+        
+        if ( view != null) {
+            String resUri = view.getUri();
+            if ( view.isForward() ) {
+                ctx.getRequestDispatcher(resUri).forward(request, response);
+            } else {
+                response.sendRedirect(resUri);
+            }
+        }
 	}
 	// 회원 가입 정보가 넘어오고 있음.
 	/*

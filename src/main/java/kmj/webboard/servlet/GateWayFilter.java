@@ -43,13 +43,15 @@ public class GateWayFilter implements Filter {
 	
 		System.out.println("잘린 uri   " + path);
 		
-		if ( path.equals("") || path.equals("/")) {
-			path = "/index.jsp";
+		if ( path.equals("/")) {
+			path = "";
 		}
 		
-		if ( path.endsWith(".jsp") || path.endsWith(".html") || path.startsWith("/static") || path.equals("")) {
+		if ( path.endsWith(".jsp") || 
+		        path.endsWith(".html") || 
+		        path.startsWith("/static")) {
 			
-			System.out.println(". DefaultServlet으로 넘겨야 합니다.");
+			System.out.println(". DefaultServlet으로 넘겨야 합니다." + path);
 			chain.doFilter(request, response);
 		}else{
 		    	System.out.println("jsp 요청입니다. /board로 넘긴다.");
