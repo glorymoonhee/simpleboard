@@ -42,6 +42,18 @@ public class UserDao {
 	
 		
 	}
+	public UserVO login(String id,String pass){
+
+		for(int i=0; i<users.size(); i++){
+           UserVO user = users.get(i);
+           
+           if(user.getUserId().equals(id) && user.getPassword().equals(pass)){
+        	   return user;
+           }
+		}
+		
+		return null;
+	}
 	
 }
 

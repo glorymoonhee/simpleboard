@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <c:forEach items="${requestScope.alluser }" var="u">
 	<li> Email: ${u.email }, ID: ${u.userId }
 </c:forEach>

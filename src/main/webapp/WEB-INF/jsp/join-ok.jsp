@@ -7,7 +7,8 @@
 <title>회원가입 완료</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <h1>회원가입이 완료되었습니다.</h1>
-<%= ((UserVO) request.getAttribute("user")).getUserId() %> 님 환영합니다.
+${user.userId} 님 환영합니다.
 </body>
 </html>
