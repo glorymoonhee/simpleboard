@@ -1,6 +1,5 @@
 package kmj.webboard.action;
 
-import java.util.Collections;
 
 /**
  * 도우미 클래스

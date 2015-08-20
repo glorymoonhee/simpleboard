@@ -20,6 +20,7 @@ public class PageJoinSuccessAction implements IAction {
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("user");
 		View view = null;
+
 		if ( user == null) {
 			// 직접 접근한 듯 ?
 			view = new View(ctx.getContextPath() + "/",false);
@@ -27,7 +28,7 @@ public class PageJoinSuccessAction implements IAction {
 		} else {
 			request.setAttribute("user", user);
 			session.invalidate();
-			view = new View("/WEB-INF/jsp/join-ok.jsp", true);
+			view = new View("/WEB-INF/jsp/join-ok.jsp", true); //forwarding해서 보낸다.
 			//ctx.getRequestDispatcher("/WEB-INF/jsp/join-ok.jsp").forward(request, response);
 			
 		}

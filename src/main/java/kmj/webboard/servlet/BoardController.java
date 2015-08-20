@@ -18,6 +18,7 @@ import kmj.webboard.action.DoLoginAction;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.page.NotFoundAction;
+import kmj.webboard.action.page.PageInformation;
 import kmj.webboard.action.page.PageJoinAction;
 import kmj.webboard.action.page.PageJoinSuccessAction;
 import kmj.webboard.action.page.PageLoginAction;
@@ -49,10 +50,10 @@ public class BoardController extends HttpServlet {
         actionMap.put("/board/users", new PageUserListAction());
         actionMap.put("/board/success", new PageJoinSuccessAction());
         actionMap.put("/board/doJoin", new DoJoinAction());
-        actionMap.put("/board/login", new PageLoginAction());
+        actionMap.put("/board/login", new PageLoginAction()); 
         actionMap.put("/board/doLogin", new DoLoginAction());
-        
         actionMap.put("_not_found_", new NotFoundAction());
+        actionMap.put("/board/myInfo", new PageInformation());
     }
     
     @Override
@@ -78,7 +79,7 @@ public class BoardController extends HttpServlet {
 		
 		View view = action.process(ctx, request, response);
 		if ( view.isFowward() ) {
-			ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
+			ctx.getRequestDispatcher(view.getUri()).forward(request, response);
 		} else {
 			response.sendRedirect(view.getUri());
 		}
@@ -99,15 +100,19 @@ public class BoardController extends HttpServlet {
 		
 		View view = action.process(ctx, request, response);		
 		if ( view.isFowward() ) {
+			System.out.println("view.isFowward" + view.getUri());// /simpleboard/success
 			ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
+		
 		} else {
 			response.sendRedirect(view.getUri());
+			
+			
 		}
 	
 	}
 	
 	private IAction findAction(String uri) {
-		IAction action = actionMap.get(uri);
+		IAction action = actionMap.get(uri);// /board/join
 		if ( action == null) {
 			System.out.println("not found: " + uri);
 			action = actionMap.get("_not_found_");

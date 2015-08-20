@@ -10,7 +10,7 @@ public class View {
 	private String uri;
 	public View ( String uri, boolean isForwarding) {
 		this.uri = uri;
-		this.isFowward = isForwarding;
+		this.isFowward = isForwarding; //true
 	}
 	public boolean isFowward() {
 		return isFowward;

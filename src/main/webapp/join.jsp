@@ -11,18 +11,7 @@
 	background-color: #F93;
 }
 </style>
-<script type="text/javascript">
-function doLogin() {
-	
-	$.ajax ( "/simpleboard/doJoin", function ( response ) {
-		if ( response.success) {
-			alert("가압했습니다.");
-		} else {
-			alert(response.cause);
-		}
-	});
-}
-</script>
+
 </head>
 <body>
 <!-- 

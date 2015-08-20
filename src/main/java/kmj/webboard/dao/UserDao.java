@@ -30,7 +30,7 @@ public class UserDao {
 		for(int i=0; i < users.size(); i++){
 			
 			if(users.get(i).getUserId().equals(userId) || users.get(i).getEmail().equals(email)){
-		         
+		         //아이디 또는 이메일이 중복되면 
 	           throw new RuntimeException();
 	           }
 	        	 
