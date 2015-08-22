@@ -36,7 +36,7 @@ public class GateWayFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		
+		System.out.println("");
 		System.out.println("이것은 필터입니다.");
 		HttpServletRequest req = (HttpServletRequest) request; // why? 설계 미스!
 		String path = stripURI(req.getRequestURI());

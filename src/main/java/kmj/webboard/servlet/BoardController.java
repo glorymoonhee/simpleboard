@@ -1,6 +1,8 @@
 package kmj.webboard.servlet;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,9 @@ import kmj.webboard.action.JoinAction;
 import kmj.webboard.action.NotFoundAction;
 import kmj.webboard.action.UserListAction;
 import kmj.webboard.action.View;
+import kmj.webboard.action.ajax.AjaxPost;
 import kmj.webboard.action.page.PageAction;
+import kmj.webboard.action.page.PageListPost;
 import kmj.webboard.dao.UserDao;
 
 import kmj.webboard.util.PathUtil;
@@ -57,6 +61,8 @@ public class BoardController extends HttpServlet {
     	actionMap.put("get:/board/login", new PageAction("/WEB-INF/jsp/login.jsp"));
     	actionMap.put("get:/board/join", new JoinAction());
     	actionMap.put("get:/board/users", new UserListAction());
+    	actionMap.put("get:/board/post", new PageListPost());
+    	actionMap.put("get:/board/post.ajax", new AjaxPost());
     	
     	actionMap.put("post:/board/join", new DoJoinAction());
     	actionMap.put("post:/board/login", new DoLoginAction());
@@ -81,8 +87,13 @@ public class BoardController extends HttpServlet {
 		    String resUri = view.getUri();
 		    if ( view.isForward() ) {
 		        ctx.getRequestDispatcher(resUri).forward(request, response);
-		    } else {
+		    } else if ( view.isRedirect()) {
 		        response.sendRedirect(resUri);
+		    } else {
+		        // view is json
+		        request.setAttribute("json", view.getJSONData());
+		        System.out.println("JSON: " + view.getJSONData());
+		        ctx.getRequestDispatcher("/WEB-INF/jsp/json/json-writer.jsp").forward(request, response);
 		    }
 		}
 	}
@@ -110,8 +121,13 @@ public class BoardController extends HttpServlet {
             String resUri = view.getUri();
             if ( view.isForward() ) {
                 ctx.getRequestDispatcher(resUri).forward(request, response);
-            } else {
+            } else if ( view.isRedirect() ) {
                 response.sendRedirect(resUri);
+            } else {
+                // view is json
+                request.setAttribute("json", view.getJSONData());
+                System.out.println("JSON: " + view.getJSONData());
+                ctx.getRequestDispatcher("/WEB-INF/jsp/json/json-writer.jsp").forward(request, response);
             }
         }
 	}
