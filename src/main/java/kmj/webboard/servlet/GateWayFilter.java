@@ -49,7 +49,7 @@ public class GateWayFilter implements Filter {
 		
 		if ( path.endsWith(".jsp") || path.endsWith(".html") || path.startsWith("/static") || path.equals("")) {
 			
-			System.out.println(". DefaultServlet으로 넘겨야 합니다.");
+			System.out.println(". DefaultServlet으로 넘겨야 합니다.==정적인파일입니다");
 			chain.doFilter(request, response);
 		}else{
 	

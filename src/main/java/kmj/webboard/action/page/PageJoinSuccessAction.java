@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
+import kmj.webboard.action.Views;
 import kmj.webboard.model.UserVO;
 
 public class PageJoinSuccessAction implements IAction {
@@ -23,12 +24,14 @@ public class PageJoinSuccessAction implements IAction {
 
 		if ( user == null) {
 			// 직접 접근한 듯 ?
-			view = new View(ctx.getContextPath() + "/",false);
+			view = Views.REDIRECT(ctx.getContextPath() + "/");
 			
 		} else {
-			request.setAttribute("user", user);
+			
+			
+			request.setAttribute("user1", user);
 			session.invalidate();
-			view = new View("/WEB-INF/jsp/join-ok.jsp", true); //forwarding해서 보낸다.
+			view = Views.FORWARD("/WEB-INF/jsp/join-ok.jsp");//forwarding해서 보낸다.
 			//ctx.getRequestDispatcher("/WEB-INF/jsp/join-ok.jsp").forward(request, response);
 			
 		}

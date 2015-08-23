@@ -34,8 +34,7 @@ public class DoLoginAction implements IAction {
 			 
 			 return Views.REDIRECT(ctx.getContextPath() + "/login");
 		 }
-		  
-//		 return null;
+
 	}
 
 }

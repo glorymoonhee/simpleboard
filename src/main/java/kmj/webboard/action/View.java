@@ -6,17 +6,41 @@ package kmj.webboard.action;
  */
 public class View {
 
-	private boolean isFowward;
+	public enum RESPONSE_TYPE { FORWARD, REDIRECT, JSON };
+	
+	
+	private RESPONSE_TYPE resType ;
 	private String uri;
-	public View ( String uri, boolean isForwarding) {
+	private String jsonData;
+	
+	public View ( String uri, RESPONSE_TYPE resType) {
 		this.uri = uri;
-		this.isFowward = isForwarding; //true
+		this.resType = resType;
 	}
+	
+	public View(String jsonData) {
+		this.resType = RESPONSE_TYPE.JSON;
+		this.jsonData = jsonData;
+	}
+	
 	public boolean isFowward() {
-		return isFowward;
+		return resType == RESPONSE_TYPE.FORWARD;
 	}
+	
+	public boolean isRedirect() {
+		return resType == RESPONSE_TYPE.REDIRECT;
+	}
+	
+	public boolean isJson() {
+		return resType == RESPONSE_TYPE.JSON;
+	}
+	
 	public String getUri() {
 		return uri;
+	}
+	
+	public String getJsonData() {
+		return jsonData;
 	}
 	
 }
