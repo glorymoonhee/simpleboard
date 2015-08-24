@@ -68,11 +68,11 @@ public class AjaxPost implements IAction {
 		return Views.JSON(root.toJSONString());
 	}
 	// "success"
-	private String quot(String s) {
-		return "\"" + s + "\"";
-	}
-	
-	
+//	private String quot(String s) {
+//		return "\"" + s + "\"";
+//	}
+//	
+//	
 	
 	
 	/*

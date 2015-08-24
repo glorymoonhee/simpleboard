@@ -18,6 +18,8 @@ import kmj.webboard.action.DoLoginAction;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.ajax.AjaxPost;
+import kmj.webboard.action.ajax.AjaxUserList;
+
 import kmj.webboard.action.page.NotFoundAction;
 import kmj.webboard.action.page.PageInformation;
 import kmj.webboard.action.page.PageJoinAction;
@@ -59,7 +61,8 @@ public class BoardController extends HttpServlet {
         
         // ajax
         actionMap.put("/post.ajax", new AjaxPost());
-    
+        actionMap.put("/user.ajax", new AjaxUserList());
+
     }
     
     @Override

@@ -15,6 +15,9 @@ public class UserDao {
 	public UserDao() {
 		users.add(new UserVO("james1", "james@naver.com", "1111"));
 		users.add(new UserVO("tom", "tom@naver.com", "2222"));
+		users.add(new UserVO("lovely", "lovely@naver.com", "2222"));
+		users.add(new UserVO("g5g5g", "g5g5g@naver.com", "2222"));
+		users.add(new UserVO("sss", "sss@naver.com", "2222"));
 	}
 
 	public List<UserVO> finaAllUser() {
