@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import kmj.webboard.dao.PostDao;
 import kmj.webboard.dao.UserDao;
 
 /**
@@ -35,8 +36,9 @@ public class BoardInitListener implements ServletContextListener {
     	ServletContext ctx = sce.getServletContext();
     	
     	ctx.setAttribute("dao.user", new UserDao());
-//    	ctx.setAttribute("dao.post", new PostDao());
-    	ctx.getAttribute("");
+    	ctx.setAttribute("dao.post", new PostDao());
+    	
+//    	ctx.getAttribute("");
     }
 	
 }

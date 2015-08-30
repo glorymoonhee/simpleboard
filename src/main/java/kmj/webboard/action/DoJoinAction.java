@@ -32,10 +32,10 @@ public class DoJoinAction implements IAction {
 			UserVO user = userDao.insertUser(userId, userEmail, password);
 			session.setAttribute("user", user);
 			
-			view = Views.FORWARD( ctx.getContextPath() + "/success");
-			// /success
+	            System.out.println(ctx.getContextPath());
+	            view = Views.REDIRECT( ctx.getContextPath() + "/success" ); // Location: http:/localhost:8080//simppleboard/success
 			
-		} catch (Exception e) { //예외 발생시
+		} catch (Exception e) { //예외 발생시(중복되면)
 			System.out.println("예외발생");
 //			HttpSession session = request.getSession();
 			session.setAttribute("userId", userId);

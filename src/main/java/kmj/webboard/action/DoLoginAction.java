@@ -31,10 +31,10 @@ public class DoLoginAction implements IAction {
 			 
 		 } else {
 			 session.setAttribute("loginError", Boolean.TRUE);
+			 
 			 return Views.REDIRECT(ctx.getContextPath() + "/login");
 		 }
-		  
-//		 return null;
+
 	}
 
 }

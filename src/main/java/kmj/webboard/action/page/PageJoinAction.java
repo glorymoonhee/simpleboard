@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
+import kmj.webboard.action.Views;
 /**
  * "/join"
  * @author Administrator
@@ -34,8 +35,8 @@ public class PageJoinAction implements IAction {
 	    
 //		ctx.getRequestDispatcher("/join.jsp").forward(request, response);
 		
-		return new View("/join.jsp", true); // 가독성이 안좋음?
-
+		return Views.FORWARD("/join.jsp"); // 가독성이 안좋음?
+             //jsp 는 defaultservlet 으로 받는다.
 	}
 
 }
