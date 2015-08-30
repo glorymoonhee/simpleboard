@@ -61,22 +61,23 @@ var response = {
   
  
 function renderPosts ( aa ) {
-	 // .size()   java.util.List.size()
-	 // .length
+	// .size()   java.util.List.size()
+	// .length
+	 
 	for ( var i = 0 ; i < aa.length; i++) {
 		var s = "<tr>";
 		
 		s += "<td>"  + aa[i].seq +  "</td>";
 		s += "<td>"  + aa[i].title +  "</td>";
-        s += "<td><input type='button' value='내용보기' id='btncontent' />"  + aa[i].content + "</a></td>";    
+        s += "<td><a href='${ctxpath}/post/view/" +  aa[i].seq + "'>"  + aa[i].content + "</a></td>";    
 		//s += "<td>"  + aa[i].content +  "</td>";
         s += "<td>"  + aa[i].writer +  "</td>";
 		s += "<td>"  + aa[i].date +  "</td>";
 		s += "<td>"  + aa[i].viewcount +  "</td>";
-		s += "</tr>";
+		s += "</tr>";	
 		
-		$('#postTable > tbody:last').append(
-				s  );
+		$('#postTable > tbody:last').append(s );
+		
 		
 	
 	}
