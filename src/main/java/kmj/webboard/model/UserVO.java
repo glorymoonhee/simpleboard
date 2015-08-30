@@ -27,6 +27,20 @@ public class UserVO {
 		this.password = password;
 		this.nickName = userId;
 	}
+	
+	
+
+	public UserVO(Integer seq, String nickName, String userId, String email,
+			String password) {
+		super();
+		this.seq = seq;
+		this.nickName = nickName;
+		this.userId = userId;
+		this.email = email;
+		this.password = password;
+	}
+
+
 
 	public Integer getSeq() {
 		return seq;
