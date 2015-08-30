@@ -1,8 +1,6 @@
 package kmj.webboard.servlet;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +16,8 @@ import kmj.webboard.action.DoLoginAction;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.ajax.AjaxPost;
+import kmj.webboard.action.ajax.AjaxPostWrite;
 import kmj.webboard.action.ajax.AjaxUserList;
-
 import kmj.webboard.action.page.NotFoundAction;
 import kmj.webboard.action.page.PageInformation;
 import kmj.webboard.action.page.PageJoinAction;
@@ -27,6 +25,9 @@ import kmj.webboard.action.page.PageJoinSuccessAction;
 import kmj.webboard.action.page.PageLoginAction;
 import kmj.webboard.action.page.PagePostAll;
 import kmj.webboard.action.page.PageUserListAction;
+import kmj.webboard.action.page.PostReadPage;
+import kmj.webboard.action.page.PostWriteAction;
+import kmj.webboard.action.page.TestClick;
 
 /**
  * 
@@ -58,10 +59,17 @@ public class BoardController extends HttpServlet {
         actionMap.put("_not_found_", new NotFoundAction());
         actionMap.put("/myInfo", new PageInformation());
         actionMap.put("/post/all", new PagePostAll());
-        
+        actionMap.put("/post/write", new PostWriteAction());  
+        actionMap.put("/post/read", new PostReadPage());  
         // ajax
         actionMap.put("/post.ajax", new AjaxPost());
         actionMap.put("/user.ajax", new AjaxUserList());
+        actionMap.put("/post/write.ajax", new AjaxPostWrite());  
+        
+        
+        
+        //test
+        actionMap.put("/post/test", new TestClick());  
 
     }
     

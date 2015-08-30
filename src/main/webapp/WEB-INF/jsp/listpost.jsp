@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctxpath" value="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,13 +11,13 @@
 #postTable {
 	background-color: #FFAA00;
 	width: 800px;
-	
 } 
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
 
+var ctxpath = '${ctxpath}';
 // 객체 리터럴이라고 합니다.
 var obj = {
 	name : 'james',
@@ -48,36 +50,67 @@ var response = {
 </tr>
  
  */
+ /**
+  *
+  */
+  
+  
+  
+  
+  
+  
+ 
 function renderPosts ( aa ) {
+	 // .size()   java.util.List.size()
+	 // .length
 	for ( var i = 0 ; i < aa.length; i++) {
 		var s = "<tr>";
 		
 		s += "<td>"  + aa[i].seq +  "</td>";
 		s += "<td>"  + aa[i].title +  "</td>";
-		s += "<td>"  + aa[i].content +  "</td>";
-		s += "<td>"  + aa[i].writer +  "</td>";
+        s += "<td><input type='button' value='내용보기' id='btncontent' />"  + aa[i].content + "</a></td>";    
+		//s += "<td>"  + aa[i].content +  "</td>";
+        s += "<td>"  + aa[i].writer +  "</td>";
 		s += "<td>"  + aa[i].date +  "</td>";
 		s += "<td>"  + aa[i].viewcount +  "</td>";
 		s += "</tr>";
 		
 		$('#postTable > tbody:last').append(
 				s  );
+		
+	
 	}
+
 }
 
 function sendPostRequest ( ) {
-	
+	/*
+	  response = ...;
+	  fn(response);
+	*/
+	console.log("OK???????");
 	$.get('/simpleboard/post.ajax', function( response ){
+		console.log(response);
 		if ( response.success) {
 			console.log('응답왔음', response);
 			renderPosts ( response.posts );
 		} else {
-			;
+			alert ( response );
 		}
+	}).fail( function(jqXHR, textStatus, errorThrown) {
+		  if (textStatus == 'timeout')
+			    console.log('The server is not responding');
+
+			  if (textStatus == 'error')
+			    console.log(errorThrown);
+
+			  // Etc
 	});
-	
 }
 
+
+	 
+	
 $(document).ready (  function(e, a, value ) {
 	$('#btnPrev').click ( function() {
 		console.log('prev');
@@ -87,7 +120,16 @@ $(document).ready (  function(e, a, value ) {
 		console.log('next');
 	});
 	
+	$('#btnWrite').click( function(){
+		document.location.href = ctxpath + '/post/write';
+	});
+	
 	sendPostRequest();
+	
+
+
+
+	    
 });
 
 </script>
@@ -96,6 +138,7 @@ $(document).ready (  function(e, a, value ) {
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"></jsp:include>
 <div>전체 게시판</div>
+<input id ="btnWrite" type="button" value="글쓰기"/>
 <table id="postTable">
 	<tr>
 		<th>글번호</th>

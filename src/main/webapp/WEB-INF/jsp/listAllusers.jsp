@@ -9,43 +9,78 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
 
+/* 
 
-function sendallusers(e) {
-   $.get('/simpleboard/user.ajax',function(response) {
-	   
-	   if ( response.success) {
-			console.log('응답왔음', response);
+function renderUsers( users ){
+	for(var i =0 ; i < users.length; i++){
 
-		} else {
-			;
-		}
-	   
-   });
-	  
+		var s = "<tr>";
+		s+= "<td>"+ users[i].userid  +"</td>";
+		s+= "<td>"+ users[i].useremail  +"</td>";
+	    s+= "</tr>";
+	    
+	    
+	    $('#usersTable > tbody:last').append(s);
+	} 
+	
+} */
+         
+function renderUsers ( users ) {
+	for ( var i = 0 ; i < users.length; i++) {
+		var s = "<tr>";
+		
+		var s = "<tr>";
+		s+= "<td>"+ users[i].userid  +"</td>";
+		s+= "<td>"+ users[i].useremail  +"</td>";
+	    s+= "</tr>"
+	    
+		
+		$('#usersTable > tbody:last').append(
+				s  );
+	}
 }
 
 
 
+function allusers(e){
 
-
-$(document).ready( function(e){
-	 $('#btnPrev').click( function(e){
-		alert('ddd');
-	 });
-	 
-	 $('#btnNext').click( function(e){
-		 console.log('next');
-	 });
-	 
-	 sendallusers(e);
+$.get('/simpleboard/user.ajax',function(response){
+	if(response.success){
+		console.log('응답왔음');
+        renderUsers(response.users);
 	
+	}else{
+		;
+	}
 });
+
+}
+
+
+$(document).ready( function(e) {
+	$('#btnPrev').click(function(e){
+		console.log('이전버튼');
+	});
+	$('#btnNext').click(function(e){
+		console.log('다음버튼');
+	});
+	
+	allusers();
+} );
+
+
+
+
+
+
+
+
 </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 
-<table>
+<table id="usersTable">
 <tr>
 <th>user ID</th>
 <th>user Email</th>
@@ -56,7 +91,7 @@ $(document).ready( function(e){
 	<tr> <td>ID: ${u.userId }</td> <td>Email: ${u.email }</td></tr>
 </c:forEach>
  --%>
-
+<tbody></tbody>
 
 </table>
 

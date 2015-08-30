@@ -18,7 +18,6 @@ public class PostVO {
 	
 	public PostVO(Integer seq, String title, String content,
 			String creationTime, Integer viewCount, UserVO writer) {
-		super();
 		this.seq = seq;
 		this.title = title;
 		this.content = content;
@@ -26,6 +25,19 @@ public class PostVO {
 		this.viewCount = viewCount;
 		this.writer = writer;
 	}
+
+
+	public PostVO(String title2, String content2, String currentTime,
+			UserVO user) {
+        this.title = title2;
+        this.content = content2;
+        this.creationTime = currentTime;
+        this.writer = user;
+        this.viewCount = 0;
+	
+	}
+	
+	
 
 
 	public Integer getSeq() {

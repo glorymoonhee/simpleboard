@@ -25,6 +25,7 @@ public class UserVO {
 		this.userId = userId;
 		this.email = email;
 		this.password = password;
+		this.nickName = userId;
 	}
 
 	public Integer getSeq() {

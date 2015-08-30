@@ -1,6 +1,5 @@
 package kmj.webboard.action;
 
-import javax.xml.ws.soap.AddressingFeature.Responses;
 
 import kmj.webboard.action.View.RESPONSE_TYPE;
 
