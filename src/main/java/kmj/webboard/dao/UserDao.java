@@ -13,11 +13,11 @@ public class UserDao {
 	private List<UserVO> users = new ArrayList<UserVO>();
 	
 	public UserDao() {
-		users.add(new UserVO("james1", "james@naver.com", "1111"));
-		users.add(new UserVO("tom", "tom@naver.com", "2222"));
-		users.add(new UserVO("lovely", "lovely@naver.com", "2222"));
-		users.add(new UserVO("g5g5g", "g5g5g@naver.com", "2222"));
-		users.add(new UserVO("sss", "sss@naver.com", "2222"));
+		users.add(new UserVO(3200, "제임스", "james1", "james@naver.com", "1111"));
+		users.add(new UserVO(3201, "톰", "tom", "tom@naver.com", "2222"));
+		users.add(new UserVO(3202, "러블", "lovely", "lovely@naver.com", "2222"));
+		users.add(new UserVO(3203, "ㅇㄴㅇㅇ", "g5g5g", "g5g5g@naver.com", "2222"));
+		users.add(new UserVO(3204, "ㅎㅎㅎ", "sss", "sss@naver.com", "2222"));
 	}
 
 	public List<UserVO> finaAllUser() {
