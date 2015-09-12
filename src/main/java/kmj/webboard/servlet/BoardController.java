@@ -13,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import kmj.webboard.action.DoJoinAction;
 import kmj.webboard.action.DoLoginAction;
+import kmj.webboard.action.FileUploadingAction;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.ajax.AjaxPost;
 import kmj.webboard.action.ajax.AjaxPostWrite;
 import kmj.webboard.action.ajax.AjaxUserList;
 import kmj.webboard.action.page.NotFoundAction;
+import kmj.webboard.action.page.PageFileUpload;
 import kmj.webboard.action.page.PageInformation;
 import kmj.webboard.action.page.PageJoinAction;
 import kmj.webboard.action.page.PageJoinSuccessAction;
@@ -61,6 +63,9 @@ public class BoardController extends HttpServlet {
         actionMap.put("/post/all", new PagePostAll());
         actionMap.put("/post/write", new PostWriteAction());  
         actionMap.put("/post/read", new PostReadPage());  
+        actionMap.put("/upload", new PageFileUpload());
+        
+        actionMap.put("/doUpload", new FileUploadingAction());
         // ajax
         actionMap.put("/post.ajax", new AjaxPost());
         actionMap.put("/user.ajax", new AjaxUserList());

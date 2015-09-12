@@ -38,6 +38,7 @@ public class BoardInitListener implements ServletContextListener {
     	ctx.setAttribute("dao.user", new UserDao());
     	ctx.setAttribute("dao.post", new PostDao());
     	
+    	ctx.setAttribute("file.upload.dir", "d:/tmp");
 //    	ctx.getAttribute("");
     }
 	
