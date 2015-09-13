@@ -98,6 +98,14 @@ public class PostVO {
 	public void setWriter(UserVO writer) {
 		this.writer = writer;
 	}
+
+
+	@Override
+	public String toString() {
+		return "PostVO [seq=" + seq + ", title=" + title + ", content="
+				+ content + ", creationTime=" + creationTime + ", viewCount="
+				+ viewCount + ", writer=" + writer + "]";
+	}
 	
 	
 	

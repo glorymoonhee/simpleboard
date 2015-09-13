@@ -13,13 +13,16 @@
 <script type="text/javascript">
  
  $(document).ready( function(){
-	 $("#delete").click( function(){
-		$.post('/simpleboard/post/delete/${post.seq}',
+	 $("#delete").click( function(e){
+		 e.preventDefault(); // a.href 에 있는 url로 이동하지 말 것.
+		 
+		 $.post('/simpleboard/post/delete/${post.seq}',
 				$('#frmPost').serialize()
 				,function(response){
 			if(response.success){
 				console.log('페이지 이동하라.여기까지넘어옴');
-				 document.location.href = response.nextURL;
+				document.location.href = "http://www.naver.com";
+				document.location.href = response.nextURL;
 			}
 		});
 	 });
@@ -31,20 +34,20 @@
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <form method="post" id="frmPost">
 <c:if test="${not empty post }">
- 제목: ${post.title} <br/>
- 내용: ${post.content}
-user in session : ${sessionScope.user.seq }, xx : ${post.writer.seq }
-<c:if test="${sessionScope.user.seq eq post.writer.seq}">
- 
-<a href="${ctxpath}/post/edit/${post.seq}" >수정하기</a>
-<a href="" id="delete">삭제하기</a>
-<%-- ${ctxpath}/post/delete/${post.seq} --%>
-
-</c:if> 
-</c:if>
-<c:if test="${empty post}">
-존재하지 않는 글입니다.
-</c:if>
+	 제목: ${post.title} <br/>
+	 내용: ${post.content}
+	user in session : ${sessionScope.user.seq }, xx : ${post.writer.seq }
+	<c:if test="${sessionScope.user.seq eq post.writer.seq}">
+	 
+	<a href="${ctxpath}/post/edit/${post.seq}" >수정하기</a>
+	<a href="" id="delete" style="cursor:pointer;">삭제하기</a>
+	<%-- ${ctxpath}/post/delete/${post.seq} --%>
+	
+	</c:if> 
+	</c:if>
+	<c:if test="${empty post}">
+	존재하지 않는 글입니다.
+	</c:if>
 </form>
 </body>
 </html>

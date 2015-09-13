@@ -20,14 +20,10 @@ public class PostEditPage implements IAction {
 	@Override
 	public View process(ServletContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		HttpSession session = request.getSession();
-		if(!Utils.isLogined(session)){
-			 return Views.MOVETOLOGINPAGE(request.getRequestURI());
-		}
 		
 	    IPostDao postdao = (IPostDao)ctx.getAttribute("dao.post");
 		PostVO post = postdao.findbysiq(parsePostSeq(request.getRequestURI()));
-		
+		System.out.println("############## " + post);
 		request.setAttribute("post", post);
 		
 		return Views.FORWARD("/WEB-INF/jsp/editpost.jsp");

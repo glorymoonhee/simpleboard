@@ -19,6 +19,8 @@ public class DBPostDao implements IPostDao {
 
 	@Override
 	public PostVO insertPost(UserVO uservo, String title, String content) throws RuntimeException{
+		// FIXME INSERT 작성 안됐음.
+		
 		return null;
 	}
 
@@ -69,54 +71,67 @@ public class DBPostDao implements IPostDao {
 			close(conn, stmt, rs);
 		} 
 	}
-
+	
+	@Override
+	public PostVO readPost( Integer postSeq) {
+		// FIXME 조회수를 올려줘야 합니다.
+		PostVO post = findbysiq("" + postSeq.intValue());
+		Integer vcount = post.getViewCount();
+		String query = "update posts set viewcount = ? where seq = ?"; // ?vcount + 1   ?postSeq
+		
+		// update set viewcount = ? 
+		return post;
+	}
+	/**
+	 * userid 로 사용자를 찾기 
+	 */
 	@Override
 	public PostVO findbysiq(String pid) {
 		String query = "select seq,title,content,creationtime,viewcount,writer from posts where seq = ?";
-				
-				Connection conn = null;
-				PreparedStatement stmt = null;
-				ResultSet rs = null;
-				
-				try {
-					conn = DriverManager.getConnection(url, user, pass);
-					stmt = conn.prepareStatement(query);
-					stmt.setInt(1, Integer.parseInt(pid));
-					rs = stmt.executeQuery();
-					
-					Integer seq = null;
-					String title = null;
-					String content = null;
-					String creationtime = null;
-					Integer viewcount = null;
-					String writer = null;
-					PostVO post = null;
-					
-					if ( rs.next()) {
-						seq = rs.getInt("seq");
-						title = rs.getString("title");
-						content = rs.getString("content");
-						creationtime = rs.getString("creationtime");
-						viewcount = rs.getInt("viewcount");
-						writer = rs.getString("writer");
-						System.out.println(writer);
-						
-						DBUserDao userdao = new DBUserDao();
-						UserVO u_writer = userdao.findbyuserid(writer);
-						/////////////////////여기부분 고쳐야함.
-						 post = new PostVO(seq, title, content, creationtime, viewcount, u_writer);
-						
-						
-					}
-					return post;
-			
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new RuntimeException( e) ;
-				} finally {
-					close(conn, stmt, rs);
-				} 
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = DriverManager.getConnection(url, user, pass);
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Integer.parseInt(pid));
+			rs = stmt.executeQuery();
+
+			Integer seq = null;
+			String title = null;
+			String content = null;
+			String creationtime = null;
+			Integer viewcount = null;
+			Integer writerSeq = null;
+			PostVO post = null;
+
+			if (rs.next()) {
+				seq = rs.getInt("seq");
+				title = rs.getString("title");
+				content = rs.getString("content");
+				creationtime = rs.getString("creationtime");
+				viewcount = rs.getInt("viewcount");
+				writerSeq = rs.getInt("writer");
+				System.out.println(writerSeq);
+
+				DBUserDao userdao = new DBUserDao();
+				UserVO u_writer = userdao.findBySeq(writerSeq);
+				// ///////////////////여기부분 고쳐야함.
+				post = new PostVO(seq, title, content, creationtime, viewcount,
+						u_writer);
+
 			}
+			return post;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(conn, stmt, rs);
+		}
+	}
 	
 
 	@Override

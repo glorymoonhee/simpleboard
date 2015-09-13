@@ -23,7 +23,7 @@ public class PostReadPage implements IAction {
 	//	String pid = request.getParameter("pid");
     
 		String pid = parsePostSeq ( request.getRequestURI());
-		PostVO post = postdao.findbysiq(pid);
+		PostVO post = postdao.readPost( Integer.parseInt(pid) );
 		request.setAttribute("post", post);
 		
 		return Views.FORWARD("/WEB-INF/jsp/postread.jsp");

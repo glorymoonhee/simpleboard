@@ -74,7 +74,7 @@ public class BoardController extends HttpServlet {
         actionMap.put("/user.ajax", new AjaxUserList());
         actionMap.put("/post/write.ajax", new AjaxPostWrite());  
         actionMap.put("/post/delete/[0-9]+$", new AjaxDeletePage()); 
-        
+//        actionMap.put("/post/delete.ajsx", new AjaxDeletePage()); 
         
         //test
         actionMap.put("/post/test", new TestClick());  
@@ -119,11 +119,14 @@ public class BoardController extends HttpServlet {
 			 String target = request.getParameter("target");
 		     System.out.println("왜이건되지"+target);
 			response.sendRedirect(view.getUri());
-		} else if (view.isMovetologin()){
-		
-			 System.out.println("------------------------");
-			response.sendRedirect(ctx.getContextPath() + "/login?target="+uri);
-		}else {
+		}
+//		else if (view.isMovetologin()){
+//		
+//			 System.out.println("------------------------");
+//			response.sendRedirect(ctx.getContextPath() + "/login?target="+uri);
+//			
+//		}
+		else {
 			request.setAttribute("json", view.getJsonData());
 			ctx.getRequestDispatcher("/WEB-INF/jsp/part/json-writer.jsp").forward(request, response);
 		}

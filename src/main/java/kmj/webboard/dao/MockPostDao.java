@@ -96,5 +96,10 @@ public class MockPostDao implements IPostDao {
 		 
 	}
 
+	@Override
+	public PostVO readPost(Integer postSeq) {
+		return null;
+	}
+
 	
 }

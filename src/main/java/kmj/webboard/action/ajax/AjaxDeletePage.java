@@ -23,15 +23,9 @@ public class AjaxDeletePage implements IAction {
 	public View process(ServletContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 	
-		HttpSession session = request.getSession(false);
-		
-		if( !Utils.isLogined(session) ){
-			return Views.MOVETOLOGINPAGE(request.getRequestURI());
-		}
-		
 		IPostDao postdao = (IPostDao)ctx.getAttribute("dao.post");
 		String pattern = parsePostSeq(request.getRequestURI());
-		// postdao.delete(pattern);	
+		 postdao.delete(pattern);	
 		
 		
 		JSONObject json = new JSONObject();

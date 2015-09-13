@@ -16,5 +16,12 @@ public interface IPostDao {
 	public abstract PostVO update(String seq, String title, String content);
 
 	public abstract PostVO delete(String pattern);
+
+	/**
+	 * 글을 읽어옵니다.
+	 * @param postSeq
+	 * @return
+	 */
+	PostVO readPost(Integer postSeq);
 	
 }
