@@ -5,6 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원가입페이지</title>
+<style type="text/css">
+
+.error{
+	background-color: #F93;
+}
+</style>
+
 </head>
 <body>
 <!-- 
@@ -32,12 +39,12 @@ javascript     필수
 
 ====================
  -->
-                
 
-<form method="post" action="/simpleboard/board/doJoin">
 
-	<div><span>아이디:</span><span><input name="userid" type="text"/></span> </div>
-	<div><span>이메일:</span><span><input name="email" type="text"/></span> </div>
+<div class="error">${error}</div>
+<form method="post" action="/simpleboard/doJoin">
+	<div><span>아이디:</span><span><input name="userid" type="text" value="${requestScope.formuserId}"/></span> </div>
+		<div><span>이메일:</span><span><input name="email" type="text" value="${requestScope.formusesrEmail}"/></span> </div>
 	<div><span>password</span><span><input name="pass" type="password"/></span></div>
 	<input type="submit" value="가입하기">
 </form>
