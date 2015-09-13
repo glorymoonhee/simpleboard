@@ -10,11 +10,12 @@ import javax.servlet.http.HttpSession;
 
 import kmj.webboard.dao.IUserDao;
 import kmj.webboard.model.UserVO;
+import kmj.webboard.util.BoardContext;
 
 public class DoJoinAction implements IAction {
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 	
 		
@@ -27,7 +28,7 @@ public class DoJoinAction implements IAction {
 		HttpSession session = request.getSession();
 		View view = null;
 		try {
-			IUserDao userDao = (IUserDao) ctx.getAttribute("dao.user");
+			IUserDao userDao = ctx.getUserDao();
 			
 			UserVO user = userDao.insertUser(userId, userEmail, password);
 			session.setAttribute("user", user);

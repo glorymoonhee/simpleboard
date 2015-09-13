@@ -2,7 +2,6 @@ package kmj.webboard.action.page;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,14 +11,15 @@ import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
 import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
+import kmj.webboard.util.BoardContext;
 
 public class PostReadPage implements IAction {
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		IPostDao postdao =(IPostDao) ctx.getAttribute("dao.post");
+		IPostDao postdao =ctx.getPostDao();
 	//	String pid = request.getParameter("pid");
     
 		String pid = parsePostSeq ( request.getRequestURI());

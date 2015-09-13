@@ -33,6 +33,7 @@ import kmj.webboard.action.page.PostEditPage;
 import kmj.webboard.action.page.PostReadPage;
 import kmj.webboard.action.page.PostWriteAction;
 import kmj.webboard.action.page.TestClick;
+import kmj.webboard.util.BoardContext;
 
 /**
  * 
@@ -44,9 +45,10 @@ import kmj.webboard.action.page.TestClick;
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext ctx;
-	
+	private BoardContext boardCtx;
 	private String ctrlPath = "/board";
 	private Map<String, IAction> actionMap = new HashMap<String, IAction>();
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -85,6 +87,7 @@ public class BoardController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
     	ctx = config.getServletContext();
+    	boardCtx = (BoardContext) ctx.getAttribute("board-ctx");
     }
 
 	/**
@@ -112,7 +115,7 @@ public class BoardController extends HttpServlet {
 		
 		IAction action = findAction ( uri ); // "/board/xxxx"
 		                                         // /board/doJoin
-		View view = action.process(ctx, request, response);
+		View view = action.process(boardCtx, request, response);
 		if ( view.isFowward() ) {
 			ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
 		} else if ( view.isRedirect() ) {

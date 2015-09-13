@@ -13,6 +13,7 @@ import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
 import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
+import kmj.webboard.util.BoardContext;
 import kmj.webboard.util.Utils;
 
 import org.json.simple.JSONObject;
@@ -20,10 +21,10 @@ import org.json.simple.JSONObject;
 public class AjaxDeletePage implements IAction {
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 	
-		IPostDao postdao = (IPostDao)ctx.getAttribute("dao.post");
+		IPostDao postdao = ctx.getPostDao();
 		String pattern = parsePostSeq(request.getRequestURI());
 		 postdao.delete(pattern);	
 		

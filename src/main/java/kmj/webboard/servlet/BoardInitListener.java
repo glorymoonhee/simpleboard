@@ -8,6 +8,7 @@ import kmj.webboard.dao.DBPostDao;
 import kmj.webboard.dao.DBUserDao;
 import kmj.webboard.dao.MockPostDao;
 import kmj.webboard.dao.MockUserDao;
+import kmj.webboard.util.BoardContext;
 
 /**
  * 애플리케이션을 초기화하는데 필요한 온갖 설정 정보들을 읽어서 준비하는 단계를 이곳에서 전부 처리를 합니다.
@@ -43,6 +44,8 @@ public class BoardInitListener implements ServletContextListener {
     	ctx.setAttribute("dao.post", new DBPostDao());
     	
 //    	ctx.getAttribute("");
+    	
+    	ctx.setAttribute("board-ctx", new BoardContext(ctx));
     }
 	
 }

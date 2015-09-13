@@ -1,0 +1,3 @@
+/post/write
+/post/edit/[0-9]+$
+/post/delete/[0-9]+$

@@ -2,7 +2,6 @@ package kmj.webboard.action.ajax;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +12,7 @@ import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
 import kmj.webboard.dao.IPostDao;
+import kmj.webboard.util.BoardContext;
 /**
  * 엔티티(userVO, postVO)의 생명주기
  * persistent data storage
@@ -29,7 +29,7 @@ import kmj.webboard.dao.IPostDao;
 public class AjaxPostUpdate implements IAction {
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		
 		// TODO 이 글을 쓴 사람과 현재 로그인한 사람이 동일해야함!!!
@@ -38,7 +38,7 @@ public class AjaxPostUpdate implements IAction {
 		String content = request.getParameter("content");
 		String seq = request.getParameter("seq");
 		
-		IPostDao postdao = (IPostDao)ctx.getAttribute("dao.post");
+		IPostDao postdao = ctx.getPostDao();
 		postdao.update(seq, title,content);
 		
 		

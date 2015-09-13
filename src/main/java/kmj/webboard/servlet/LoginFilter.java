@@ -37,10 +37,12 @@ public class LoginFilter implements Filter {
         System.out.println("로로로로로로로로로롤로로로로");
         
         targetUris.add("/post/write");
-//        targetUris.add("/post/")
-        targetUris.add("/post/write");
         targetUris.add("/post/edit/[0-9]+$");
-        targetUris.add("/post/delete/");
+        targetUris.add("/post/delete/[0-9]+$");
+        // file reading - evernote -
+        String urlFileName = filterConfig.getInitParameter("file.checkUrls");
+        System.out.println("url file name: " + urlFileName);
+        // FIXME  드디어 로그인 url들을 외부로 빼냅니다.!!
 	}
 
 	@Override

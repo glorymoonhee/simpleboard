@@ -13,6 +13,7 @@ import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
 import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
+import kmj.webboard.util.BoardContext;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,7 +38,7 @@ public class AjaxPost implements IAction {
 //		posts.add(new PostVO(10233, "second", "second content", "2015-08-22 13:11:09", 123, null));
 	}
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		/**
 		 *  { success : _boolean_,
@@ -51,7 +52,7 @@ public class AjaxPost implements IAction {
 		root.put("success", Boolean.TRUE);
 		
 		
-		 IPostDao postdao =(IPostDao) ctx.getAttribute("dao.post");
+		 IPostDao postdao = ctx.getPostDao();
 		 List<PostVO> posts =  postdao.findAll();
 		 
 		JSONArray arr = new JSONArray();
