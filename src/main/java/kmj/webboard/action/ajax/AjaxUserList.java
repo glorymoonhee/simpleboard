@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
-import kmj.webboard.dao.UserDao;
+import kmj.webboard.dao.IUserDao;
 import kmj.webboard.model.UserVO;
 
 public class AjaxUserList implements IAction {
@@ -27,7 +27,7 @@ public class AjaxUserList implements IAction {
 			HttpServletResponse response) throws IOException, ServletException {
 
 		
-		UserDao userDao = (UserDao) ctx.getAttribute("dao.user");
+		IUserDao userDao = (IUserDao) ctx.getAttribute("dao.user");
 		 users = userDao.finaAllUser();
 
 		/*{success : boolean

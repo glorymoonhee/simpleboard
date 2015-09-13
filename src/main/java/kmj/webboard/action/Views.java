@@ -20,7 +20,12 @@ public class Views {
 		return new View( uri, RESPONSE_TYPE.REDIRECT);
 	}
 
+	public static View MOVETOLOGINPAGE(String uri){
+		return new View(uri, RESPONSE_TYPE.MOVETOLOGIN);
+		
+	}
 	public static View JSON(String jsonData) {
 		return new View ( jsonData );
 	}
+	
 }

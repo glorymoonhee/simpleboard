@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kmj.webboard.dao.UserDao;
+import kmj.webboard.dao.IUserDao;
 import kmj.webboard.model.UserVO;
 
 public class DoLoginAction implements IAction {
@@ -19,14 +19,18 @@ public class DoLoginAction implements IAction {
 		
 		String userId = request.getParameter("userid");
 		String pass = request.getParameter("pass");
-		
-		UserDao userdao = (UserDao) ctx.getAttribute("dao.user");
+		String target = request.getParameter("target"); 
+		IUserDao userdao = (IUserDao) ctx.getAttribute("dao.user");
 		 UserVO user= userdao.login(userId, pass);
 		
 		 HttpSession session = request.getSession();
 		 if(user!=null){
-			
+			 
 			 session.setAttribute("user", user);
+			 
+			 if(target!=null){
+			 return Views.REDIRECT(ctx.getContextPath()+target);
+			 }
 			 return Views.REDIRECT(ctx.getContextPath());
 			 
 		 } else {

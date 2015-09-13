@@ -25,12 +25,21 @@ public class PostWriteAction implements IAction {
 		
 		// FIXME 나중에 LoginCheckFilter 에서 처리하도록 합니다.
 		if( !Utils.isLogined(session) ){
-			return Views.REDIRECT(ctx.getContextPath() + "/login");
-		}
+		   return Views.MOVETOLOGINPAGE(request.getRequestURI());
+		    		
+	        //simpleboard/login?target= write;
+			
+			//로긴 안 되어있을 때	
+		//return Views.REDIRECT(ctx.getContextPath() + "/login?target=" + "write");
+		}  
+		
+		
+		
 		
 		
 		return Views.FORWARD("/WEB-INF/jsp/post-writing-page.jsp");
 
 		}
+
 
 }

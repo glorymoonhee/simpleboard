@@ -52,7 +52,7 @@ public class GateWayFilter implements Filter {
 			System.out.println(". DefaultServlet으로 넘겨야 합니다.==정적인파일입니다");
 			chain.doFilter(request, response);
 		}else{
-	
+				  
 		    	path = "/board" + path ; // url rewriting
 		    	req.getRequestDispatcher(path).forward(request,response);
 		    	// board+ join

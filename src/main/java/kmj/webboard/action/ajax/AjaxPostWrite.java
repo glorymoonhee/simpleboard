@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
-import kmj.webboard.dao.PostDao;
+import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
 import kmj.webboard.model.UserVO;
 
@@ -34,7 +34,7 @@ public class AjaxPostWrite implements IAction {
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			
-			PostDao postdao =(PostDao) ctx.getAttribute("dao.post");
+			IPostDao postdao =(IPostDao) ctx.getAttribute("dao.post");
 			PostVO newPost = postdao.insertPost(user,title,content); 
 			/**
 			 * { successs : true, nextUrl: '/simpleboard//post/all' }

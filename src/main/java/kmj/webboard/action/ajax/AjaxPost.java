@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
-import kmj.webboard.dao.PostDao;
+import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
 
 import org.json.simple.JSONArray;
@@ -51,7 +51,7 @@ public class AjaxPost implements IAction {
 		root.put("success", Boolean.TRUE);
 		
 		
-		 PostDao postdao =(PostDao) ctx.getAttribute("dao.post");
+		 IPostDao postdao =(IPostDao) ctx.getAttribute("dao.post");
 		 List<PostVO> posts =  postdao.findAll();
 		 
 		JSONArray arr = new JSONArray();

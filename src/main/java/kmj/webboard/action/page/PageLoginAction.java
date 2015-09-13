@@ -19,12 +19,24 @@ public class PageLoginAction implements IAction {
 			HttpServletResponse response) throws IOException, ServletException {
 
 		HttpSession session = request.getSession(false);
+		
 		if ( session != null ) {
 			
 			request.setAttribute("error", session.getAttribute("loginError"));
 			session.invalidate();
 		}
-		return Views.FORWARD("/WEB-INF/jsp/login.jsp");
+		
+		//세션이없으면
+                   
+						
+                    	 String target = request.getParameter("target");
+                    	 if(target!=null){
+                    	 request.setAttribute("target", target);
+                    	 System.out.println("target은 뭘까요옹"+target);
+                    	 }
+	
+                         	
+                    	 return Views.FORWARD("/WEB-INF/jsp/login.jsp");
 	}
-
+                    	 
 }

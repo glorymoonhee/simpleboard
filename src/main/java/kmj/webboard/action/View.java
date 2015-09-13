@@ -6,7 +6,7 @@ package kmj.webboard.action;
  */
 public class View {
 
-	public enum RESPONSE_TYPE { FORWARD, REDIRECT, JSON };
+	public enum RESPONSE_TYPE { FORWARD, REDIRECT, JSON , MOVETOLOGIN};
 	
 	
 	private RESPONSE_TYPE resType ;
@@ -33,6 +33,10 @@ public class View {
 	
 	public boolean isJson() {
 		return resType == RESPONSE_TYPE.JSON;
+	}
+	
+	public boolean isMovetologin(){
+		return resType == RESPONSE_TYPE.MOVETOLOGIN;
 	}
 	
 	public String getUri() {

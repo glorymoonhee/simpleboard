@@ -2,6 +2,16 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
           http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
+
+
+
+
+
+
+
+
+
+
     <display-name>Servlet 3.0 Web Application</display-name>
       <servlet>
     <description>게이트웨이 역할을 하는 컨트롤러 전용 서블릿입니다</description>
@@ -26,6 +36,21 @@
     <listener-class>kmj.webboard.servlet.BoardInitListener</listener-class>
   </listener>
   
+  
+      <filter>
+    <display-name>LoginFilter</display-name>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>kmj.webboard.servlet.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/post/write</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+  </filter-mapping>
+  
+  
+  
   <filter>
     <display-name>GateWayFilter</display-name>
     <filter-name>GateWayFilter</filter-name>
@@ -37,4 +62,7 @@
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>INCLUDE</dispatcher>
   </filter-mapping>
+  
+
+  
 </web-app>

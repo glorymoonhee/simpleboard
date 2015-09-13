@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import kmj.webboard.dao.UserDao;
+import kmj.webboard.dao.IUserDao;
 import kmj.webboard.model.UserVO;
 
 public class DoJoinAction implements IAction {
@@ -27,7 +27,7 @@ public class DoJoinAction implements IAction {
 		HttpSession session = request.getSession();
 		View view = null;
 		try {
-			UserDao userDao = (UserDao) ctx.getAttribute("dao.user");
+			IUserDao userDao = (IUserDao) ctx.getAttribute("dao.user");
 			
 			UserVO user = userDao.insertUser(userId, userEmail, password);
 			session.setAttribute("user", user);
