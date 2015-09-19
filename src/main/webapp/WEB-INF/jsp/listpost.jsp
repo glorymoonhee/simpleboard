@@ -69,7 +69,7 @@ function renderPosts ( aa ) {
 		
 		s += "<td>"  + aa[i].seq +  "</td>";
 		s += "<td>"  + aa[i].title +  "</td>";
-        s += "<td><a href='${ctxpath}/post/read?pid=" +  aa[i].seq + "'>"  + aa[i].content + "</a></td>";    
+        s += "<td><a href='${ctxpath}/post/read/" +  aa[i].seq + "'>"  + aa[i].content + "</a></td>";    
 		//s += "<td>"  + aa[i].content +  "</td>";
         s += "<td>"  + aa[i].writer +  "</td>";
 		s += "<td>"  + aa[i].date +  "</td>";

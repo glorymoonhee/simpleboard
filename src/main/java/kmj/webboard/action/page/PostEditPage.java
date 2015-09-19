@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
@@ -12,27 +13,28 @@ import kmj.webboard.action.Views;
 import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
 import kmj.webboard.util.BoardContext;
+import kmj.webboard.util.Utils;
 
-public class PostReadPage implements IAction {
+public class PostEditPage implements IAction {
 
 	@Override
 	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
-		IPostDao postdao =ctx.getPostDao();
-	//	String pid = request.getParameter("pid");
-    
-		String pid = parsePostSeq ( request.getRequestURI());
-		PostVO post = postdao.readPost( Integer.parseInt(pid) );
+		
+	    IPostDao postdao = ctx.getPostDao();
+		PostVO post = postdao.findbysiq(parsePostSeq(request.getRequestURI()));
+		System.out.println("############## " + post);
 		request.setAttribute("post", post);
 		
-		return Views.FORWARD("/WEB-INF/jsp/postread.jsp");
+		return Views.FORWARD("/WEB-INF/jsp/editpost.jsp");
+		
 	}
 
+	
+	
 	private String parsePostSeq(String postReqUri) {
 		
 		int lastSlashIndex = postReqUri.lastIndexOf("/") + 1 ;
 		return postReqUri.substring(lastSlashIndex);
 	}
-
 }

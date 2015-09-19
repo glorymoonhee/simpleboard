@@ -2,7 +2,6 @@ package kmj.webboard.action.ajax;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,14 +12,15 @@ import org.json.simple.JSONObject;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
-import kmj.webboard.dao.PostDao;
+import kmj.webboard.dao.IPostDao;
 import kmj.webboard.model.PostVO;
 import kmj.webboard.model.UserVO;
+import kmj.webboard.util.BoardContext;
 
 public class AjaxPostWrite implements IAction {
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		
 		HttpSession session = request.getSession(false);
@@ -34,7 +34,7 @@ public class AjaxPostWrite implements IAction {
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			
-			PostDao postdao =(PostDao) ctx.getAttribute("dao.post");
+			IPostDao postdao =ctx.getPostDao();
 			PostVO newPost = postdao.insertPost(user,title,content); 
 			/**
 			 * { successs : true, nextUrl: '/simpleboard//post/all' }

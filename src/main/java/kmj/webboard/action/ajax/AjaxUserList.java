@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,19 +14,20 @@ import org.json.simple.JSONObject;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
 import kmj.webboard.action.Views;
-import kmj.webboard.dao.UserDao;
+import kmj.webboard.dao.IUserDao;
 import kmj.webboard.model.UserVO;
+import kmj.webboard.util.BoardContext;
 
 public class AjaxUserList implements IAction {
 	List<UserVO> users =new ArrayList<UserVO>();
 
 
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request,
+	public View process(BoardContext ctx, HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
 		
-		UserDao userDao = (UserDao) ctx.getAttribute("dao.user");
+		IUserDao userDao = ctx.getUserDao();
 		 users = userDao.finaAllUser();
 
 		/*{success : boolean

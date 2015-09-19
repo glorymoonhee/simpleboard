@@ -18,13 +18,15 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 
+import kmj.webboard.util.BoardContext;
+
 public class FileUploadingAction implements IAction {
 
 	static int MEM_THRESHOLD = 1 * 1024 * 1024 ; // memory
 	static int MAX_FILE_SIZE = 1 * 1024 * 1024; // max files
 	static File rootDir =  new File("d:/tmp");
 	@Override
-	public View process(ServletContext ctx, HttpServletRequest request, HttpServletResponse response)
+	public View process(BoardContext ctx, HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		if ( ! ServletFileUpload.isMultipartContent(request) ) {
 			return Views.REDIRECT("/error.html");
