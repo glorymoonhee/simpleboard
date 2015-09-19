@@ -35,6 +35,7 @@ public class BoardInitListener implements ServletContextListener {
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent sce)  { 
+    	new org.mariadb.jdbc.Driver(); // just for registering driver
     	System.out.println("서블릿 컨텍스트가 생성되었습니다.");
     	ServletContext ctx = sce.getServletContext();
     	
