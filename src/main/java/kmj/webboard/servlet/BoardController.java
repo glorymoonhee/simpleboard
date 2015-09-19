@@ -69,11 +69,13 @@ public class BoardController extends HttpServlet {
         actionMap.put("_not_found_", new NotFoundAction());
         actionMap.put("/myInfo", new PageInformation());
         actionMap.put("/post/all", new PagePostAll());
-
         actionMap.put("/post/write", new PostWriteAction()); 
         actionMap.put("/post/read/[0-9]+$", new PostReadPage());  
         actionMap.put("/post/edit/[0-9]+$", new PostEditPage()); 
-
+        
+        actionMap.put("/upload", new PageFileUpload());
+        actionMap.put("/doUpload", new FileUploadingAction());
+        
         // ajax
         actionMap.put("/post/update.ajax", new AjaxPostUpdate()); 
         actionMap.put("/post.ajax", new AjaxPost());

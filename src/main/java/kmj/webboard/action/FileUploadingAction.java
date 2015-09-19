@@ -44,7 +44,7 @@ public class FileUploadingAction implements IAction {
 				if ( item.isFormField()) {
 					String param = item.getFieldName();
 					String value = Streams.asString(item.openStream());
-					System.out.println(String.format("Not a file item. %s:%s", param, value));
+					System.out.println(String.format("normal form value  name:%s, value:%s", param, value));
 				} else {
 					String param = item.getFieldName().trim();
 					String filename = item.getName().trim();

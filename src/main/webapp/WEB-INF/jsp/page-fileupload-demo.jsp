@@ -5,48 +5,40 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <jsp:include page="/WEB-INF/jsp/part/common-js.jsp"/>
+<script type="text/javascript" src="/simpleboard/static/js/upload.js"></script>
 <title>파일업로드테스트입니다.</title>
 <script type="text/javascript">
-function sendFiles ( ) {
-	var url = '/simpleboard/doUpload';
-	var fd = new FormData();
-	var fs =  $('input[type=file]' );
-	$.each( fs, function (idx, obj ){
-		$.each(obj.files, function(k, file) {          
-			fd.append('file-' + idx, file);
-	    });
-	});
-	
-	$.ajax ({
-		url: url, 
-		type: 'POST',
-		data: fd,
-		processData: false,
-		contentType: false,
-		enctype: 'multipart/form-data',
-		success: function(response){
-			console.log( response );
-		},
-		error : function ( xhr, status, error ){
-			console.log( xhr, status, error);
-		}
-	});
-}
+
+
+var uploader = FileUploader();
+
 $(document).ready ( function(){
 	$('.files').bind('change', function(){
+		var $output = $('#output');
+		var totalSize = 0;
+		var html = '';
+		for ( var idx = 0 ; idx < this.files.length; idx++){
+			html += '<div>' + this.files[idx].name + '(' + this.files[idx].size + ' bytes)</div>';
+			totalSize += this.files[idx].size;
+		}
+		html += '<div>total: ' + totalSize + 'bytes</div>';
+		$output.html ( html );
 		console.log( this.files[0].size );
 	});
 	
-	$('#btnUpload').click ( sendFiles );
+	$('#btnUpload').click ( function() {
+		uploader.sendFiles ('/simpleboard/doUpload', '#frmUpload');
+	} );
 });
 </script>
 </head>
 <body>
 <form id="frmUpload" method="post" enctype="multipart/form-data">
-	<input class="files" type="file" name="upfile"/> <br/>
-	<input class="files" type="file" name="upfile"/> <br/>
+	<input class="files" type="file" name="upfile" multiple /> <br/>
 	<input type="text" name="desc"/>
 	<input id="btnUpload" type="button" value="올리기"/>
+	<div id="output">
+	</div>
 </form>
 </body>
 </html>
