@@ -1,7 +1,6 @@
 package kmj.webboard.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import kmj.webboard.model.PostVO;
 import kmj.webboard.model.UserVO;
 
 public class DBUserDao implements IUserDao {
@@ -18,7 +16,14 @@ public class DBUserDao implements IUserDao {
 	private String user = "root";
 	private String pass = "1111";
 
+	private ConnectionFactory fac;
+	
+	
 	public DBUserDao() {
+	}
+
+	public DBUserDao(ConnectionFactory fac) {
+		this.fac = fac;
 	}
 
 	@Override
@@ -31,7 +36,7 @@ public class DBUserDao implements IUserDao {
 
 		ArrayList<UserVO> list = new ArrayList<UserVO>();
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = fac.getConnection();
 			stmt = conn.prepareStatement(query);
 			rs = stmt.executeQuery();
 
@@ -70,7 +75,7 @@ public class DBUserDao implements IUserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = fac.getConnection();
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, seq.intValue());
 			rs = stmt.executeQuery();
@@ -114,7 +119,7 @@ public class DBUserDao implements IUserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = fac.getConnection();
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, pid);
 			rs = stmt.executeQuery();
@@ -155,7 +160,7 @@ public class DBUserDao implements IUserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = fac.getConnection();
 			stmt = conn.prepareStatement(query);
 
 			stmt.setString(1, id);
@@ -182,7 +187,7 @@ public class DBUserDao implements IUserDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new DaoException(e);
 		} finally {
 			close(conn, stmt, rs);
 		}
@@ -197,7 +202,7 @@ public class DBUserDao implements IUserDao {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = fac.getConnection();
 			conn.setAutoCommit(false); // !!!!!
 
 			stmt = conn
@@ -232,7 +237,7 @@ public class DBUserDao implements IUserDao {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new DaoException(e);
 		} finally {
 			close(conn, stmt, rs);
 		}

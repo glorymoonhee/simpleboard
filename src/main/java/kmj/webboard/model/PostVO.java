@@ -25,6 +25,16 @@ public class PostVO {
 		this.viewCount = viewCount;
 		this.writer = writer;
 	}
+  
+	
+
+	public PostVO(String title, String content, UserVO writer) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+	}
+
 
 
 	public PostVO(String title2, String content2, String currentTime,

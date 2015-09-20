@@ -1,7 +1,10 @@
 package kmj.webboard.util;
 
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 
+import kmj.webboard.action.IAction;
 import kmj.webboard.dao.IPostDao;
 import kmj.webboard.dao.IUserDao;
 
@@ -31,5 +34,12 @@ public class BoardContext {
 	 */
 	public int getPageSize() {
 		return (Integer) ctx.getAttribute("cnt.page") ;
+	}
+	/**
+	 * uri mapping 정보가 담긴 map 을 반환합니다.
+	 * @return
+	 */
+	public Map<String, IAction> getActionMap() {
+		return (Map<String, IAction>) ctx.getAttribute("urimapping");
 	}
 }

@@ -107,31 +107,30 @@ public class BoardController extends HttpServlet {
 	}
 	
 	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String method = request.getMethod().toUpperCase();
-		System.out.println("[" + method + "]클라이언트로부터 요청이 들어왔음");
-		String uri = stripURI(ctx, request.getRequestURI());
-		
-		System.out.println(method + " uri: " + uri);
-		
-		IAction action = findAction ( uri ); // "/board/xxxx"
-		                                         // /board/doJoin
-		View view = action.process(boardCtx, request, response);
-		if ( view.isFowward() ) {
-			ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
-		} else if ( view.isRedirect() ) {
-			 String target = request.getParameter("target");
-		     System.out.println("왜이건되지"+target);
-			response.sendRedirect(view.getUri());
-		}
-//		else if (view.isMovetologin()){
-//		
-//			 System.out.println("------------------------");
-//			response.sendRedirect(ctx.getContextPath() + "/login?target="+uri);
-//			
-//		}
-		else {
-			request.setAttribute("json", view.getJsonData());
-			ctx.getRequestDispatcher("/WEB-INF/jsp/part/json-writer.jsp").forward(request, response);
+		try {
+			String method = request.getMethod().toUpperCase();
+			System.out.println("[" + method + "]클라이언트로부터 요청이 들어왔음");
+			String uri = stripURI(ctx, request.getRequestURI());
+			
+			System.out.println(method + " uri: " + uri);
+			
+			IAction action = findAction ( uri ); // "/board/xxxx"
+			// /board/doJoin
+			View view = action.process(boardCtx, request, response);
+			if ( view.isFowward() ) {
+				ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
+			} else if ( view.isRedirect() ) {
+				String target = request.getParameter("target");
+				System.out.println("왜이건되지"+target);
+				response.sendRedirect(view.getUri());
+			}
+			else {
+				request.setAttribute("json", view.getJsonData());
+				ctx.getRequestDispatcher("/WEB-INF/jsp/part/json-writer.jsp").forward(request, response);
+			}
+			
+		} catch ( Exception e) {
+			e.printStackTrace();
 		}
 	}
 	

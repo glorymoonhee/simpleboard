@@ -13,15 +13,64 @@ import kmj.webboard.model.PostVO;
 import kmj.webboard.model.UserVO;
 
 public class DBPostDao implements IPostDao {
-	private String url = "jdbc:mysql://localhost:3306/sboarddb";
-	private String user = "root";
-	private String pass = "1111";
+
+	private ConnectionFactory factory;
+
+	public DBPostDao(ConnectionFactory cf) {
+		this.factory = cf;
+	}
+
 
 	@Override
 	public PostVO insertPost(UserVO uservo, String title, String content) throws RuntimeException{
-		// FIXME INSERT 작성 안됐음.
-		
-		return null;
+		String query = "insert into posts (title,content,writer) values (?,?,?)";
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = factory.getConnection();
+			conn.setAutoCommit(false); // !!!!!
+
+			stmt = conn
+					.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+	        PostVO post = new PostVO(title, content, uservo);
+      
+			
+	        
+			stmt.setString(1, title);
+			stmt.setString(2, content);
+			stmt.setInt(3, uservo.getSeq());
+
+			int cnt = stmt.executeUpdate();
+			if (cnt != 1) {
+				//
+				throw new RuntimeException("실패했다");
+			}
+
+			rs = stmt.getGeneratedKeys(); // 서버쪽에서 insert를 할때 생서오딘 PK들을 담아서 보내줌.
+			/*여기질문있어요
+			 * */
+			rs.next();
+			Integer seq = rs.getInt(1);
+			post.setSeq(seq);
+			
+			conn.commit(); // !!!!!!
+
+			return post;
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			close(conn, stmt, rs);
+		}
 	}
 
 
@@ -35,7 +84,7 @@ public class DBPostDao implements IPostDao {
 		
 		ArrayList<PostVO> list = new ArrayList<PostVO>();
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = factory.getConnection();
 			stmt = conn.prepareStatement(query);
 			rs = stmt.executeQuery();
 			
@@ -94,7 +143,7 @@ public class DBPostDao implements IPostDao {
 		ResultSet rs = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = factory.getConnection();
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Integer.parseInt(pid));
 			rs = stmt.executeQuery();
@@ -146,7 +195,7 @@ public class DBPostDao implements IPostDao {
 			
 			
 			try {
-				conn = DriverManager.getConnection(url, user, pass);
+				conn = factory.getConnection();
 				conn.setAutoCommit(false); // !!!!!
 				
 				stmt = conn.prepareStatement(query);
@@ -200,7 +249,7 @@ public class DBPostDao implements IPostDao {
 			try {
 				
 				String query = "delete from posts where seq = ?";
-				conn = DriverManager.getConnection(url, user, pass);
+				conn = factory.getConnection();
 				conn.setAutoCommit(false); // !!!!!
 				
 				stmt = conn.prepareStatement(query);

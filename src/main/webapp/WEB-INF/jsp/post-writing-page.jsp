@@ -31,6 +31,17 @@ function sendPost ( ) {
 		;
 	} */
 	
+	/* $.ajax({
+		uri : uri, 
+		method : 'POST',
+		enctype : 'multipart/form-data',
+		success : function ( response ) {
+			;
+		},
+		error : function( ) {
+			;
+		}
+	}); */
 	
 	$.post( uri,
 			$('#frmPost').serialize(),
@@ -60,7 +71,8 @@ $(document).ready( function(){
 <form method="post" id="frmPost">
 	제목 : <input type="text" size="20" id="title" name="title"/> <br />
 	내용 : <textarea rows="20" cols="30" id="content" name="content"></textarea>
-	<input type="button" value="완료" id="btnSubmit"/>
+	<!-- <div><input type="file"></div> -->
+	<div></div><input type="button" value="완료" id="btnSubmit"/></div>
 </form>
 </body>
 </html>
