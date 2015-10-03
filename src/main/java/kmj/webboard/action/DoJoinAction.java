@@ -2,7 +2,6 @@ package kmj.webboard.action;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,8 +32,7 @@ public class DoJoinAction implements IAction {
 			UserVO user = userDao.insertUser(userId, userEmail, password);
 			session.setAttribute("user", user);
 			
-	            System.out.println(ctx.getContextPath());
-	            view = Views.REDIRECT( ctx.getContextPath() + "/success" ); // Location: http:/localhost:8080//simppleboard/success
+	        view = Views.REDIRECT( ctx.getContextPath() + "/success" ); // Location: http:/localhost:8080//simppleboard/success
 			
 		} catch (Exception e) { //예외 발생시(중복되면)
 			System.out.println("예외발생");

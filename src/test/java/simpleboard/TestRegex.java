@@ -31,7 +31,7 @@ public class TestRegex {
 		s = "abCCC";
 
 		// ab, abx abab, ababcccccccccccccccc*
-		assertTrue ( s.matches("(ab)+c*") );
+		assertTrue ( s.matches("(ab)+C*") );
 		//+ : 문자하나 이상 찾기
 		//. : 모든문자일치 (한문자)
 		//* : 문자가 없는경우,하나인상 연속하는 문자.\

@@ -39,14 +39,12 @@ public class BoardInitListener implements ServletContextListener {
     	System.out.println("서블릿 컨텍스트가 생성되었습니다.");
     	ServletContext ctx = sce.getServletContext();
     	
-//    	ctx.setAttribute("dao.user", new MockUserDao());
-//    	ctx.setAttribute("dao.post", new MockPostDao()); 
-    	ctx.setAttribute("dao.user", new DBUserDao());
-    	ctx.setAttribute("dao.post", new DBPostDao());
+    	ctx.setAttribute(BoardContext.ATTR_USERDAO, new DBUserDao());
+    	ctx.setAttribute(BoardContext.ATTR_POSTDAO, new DBPostDao());
     	
 //    	ctx.getAttribute("");
     	
-    	ctx.setAttribute("board-ctx", new BoardContext(ctx));
+    	ctx.setAttribute(BoardContext.ATTR_BOARD_CONTEXT, new BoardContext(ctx));
     }
 	
 }

@@ -8,6 +8,9 @@ import kmj.webboard.dao.IUserDao;
 public class BoardContext {
 
 	private ServletContext ctx ;
+	final public static String ATTR_POSTDAO = "dao.post";
+	final public static String ATTR_USERDAO = "dao.user";
+	public static final String ATTR_BOARD_CONTEXT = "board-ctx";
 	
 	public BoardContext( ServletContext ctx) {
 		this.ctx = ctx;
