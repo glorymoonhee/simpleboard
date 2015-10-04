@@ -6,12 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>로그인</title>
+<%
+ String target = (String)request.getAttribute("target");
+ 
+%>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/header.jsp" />
 	<div><c:if test="${ error }">아이디와 이메일을 확인해주세요.</c:if></div>
 	<form action="${pageContext.servletContext.contextPath}/doLogin"
 		method="post">
+		<c:if test="${not empty target }">
+		<div>
+		    <input type="hidden" name="target" value=<%=target%> />
+		</div>
+		</c:if>
 		<div>
 			id: <input type="text" name="userid" />
 		</div>

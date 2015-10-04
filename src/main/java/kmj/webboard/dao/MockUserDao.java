@@ -7,12 +7,18 @@ import java.util.List;
 
 
 import kmj.webboard.model.UserVO;
-
-public class UserDao {
+/**
+ * 
+ * DemoUserDao:
+ * DbUserDao:
+ * @author Administrator
+ *
+ */
+public abstract class MockUserDao implements IUserDao {
 
 	private List<UserVO> users = new ArrayList<UserVO>();
 	
-	public UserDao() {
+	public MockUserDao() {
 		users.add(new UserVO(3200, "제임스", "james1", "james@naver.com", "1111"));
 		users.add(new UserVO(3201, "톰", "tom", "tom@naver.com", "2222"));
 		users.add(new UserVO(3202, "러블", "lovely", "lovely@naver.com", "2222"));
@@ -20,10 +26,18 @@ public class UserDao {
 		users.add(new UserVO(3204, "ㅎㅎㅎ", "sss", "sss@naver.com", "2222"));
 	}
 
+	/* (non-Javadoc)
+	 * @see kmj.webboard.dao.IUserDao#finaAllUser()
+	 */
+	@Override
 	public List<UserVO> finaAllUser() {
 		return users;
 	}
 	
+	/* (non-Javadoc)
+	 * @see kmj.webboard.dao.IUserDao#insertUser(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public UserVO insertUser ( String userId, String email, String password) throws RuntimeException {
 		// 새로운 user를 생성한 후에  users 안에 담아둔 후 userVO를 반환해 봅니다.
 		// id하고 이메일이 중복된 경우 예외를 던져줘야 합니다.
@@ -45,6 +59,10 @@ public class UserDao {
 	
 		
 	}
+	/* (non-Javadoc)
+	 * @see kmj.webboard.dao.IUserDao#login(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public UserVO login(String id,String pass){
 
 		for(int i=0; i<users.size(); i++){

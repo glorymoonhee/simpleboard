@@ -2,6 +2,7 @@ package kmj.webboard.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletConfig;
@@ -15,9 +16,12 @@ import kmj.webboard.action.DoJoinAction;
 import kmj.webboard.action.DoLoginAction;
 import kmj.webboard.action.IAction;
 import kmj.webboard.action.View;
+import kmj.webboard.action.ajax.AjaxDeletePage;
 import kmj.webboard.action.ajax.AjaxPost;
+import kmj.webboard.action.ajax.AjaxPostUpdate;
 import kmj.webboard.action.ajax.AjaxPostWrite;
 import kmj.webboard.action.ajax.AjaxUserList;
+import kmj.webboard.action.page.DologoutAction;
 import kmj.webboard.action.page.NotFoundAction;
 import kmj.webboard.action.page.PageInformation;
 import kmj.webboard.action.page.PageJoinAction;
@@ -25,9 +29,11 @@ import kmj.webboard.action.page.PageJoinSuccessAction;
 import kmj.webboard.action.page.PageLoginAction;
 import kmj.webboard.action.page.PagePostAll;
 import kmj.webboard.action.page.PageUserListAction;
+import kmj.webboard.action.page.PostEditPage;
 import kmj.webboard.action.page.PostReadPage;
 import kmj.webboard.action.page.PostWriteAction;
 import kmj.webboard.action.page.TestClick;
+import kmj.webboard.util.BoardContext;
 
 /**
  * 
@@ -39,9 +45,10 @@ import kmj.webboard.action.page.TestClick;
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext ctx;
-	
+	private BoardContext boardCtx;
 	private String ctrlPath = "/board";
 	private Map<String, IAction> actionMap = new HashMap<String, IAction>();
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -56,17 +63,20 @@ public class BoardController extends HttpServlet {
         actionMap.put("/doJoin", new DoJoinAction());
         actionMap.put("/login", new PageLoginAction()); 
         actionMap.put("/doLogin", new DoLoginAction());
+        actionMap.put("/logout", new DologoutAction());
         actionMap.put("_not_found_", new NotFoundAction());
         actionMap.put("/myInfo", new PageInformation());
         actionMap.put("/post/all", new PagePostAll());
-        actionMap.put("/post/write", new PostWriteAction());  
-        actionMap.put("/post/read", new PostReadPage());  
+        actionMap.put("/post/write", new PostWriteAction()); 
+        actionMap.put("/post/read/[0-9]+$", new PostReadPage());  
+        actionMap.put("/post/edit/[0-9]+$", new PostEditPage()); 
         // ajax
+        actionMap.put("/post/update.ajax", new AjaxPostUpdate()); 
         actionMap.put("/post.ajax", new AjaxPost());
         actionMap.put("/user.ajax", new AjaxUserList());
         actionMap.put("/post/write.ajax", new AjaxPostWrite());  
-        
-        
+        actionMap.put("/post/delete/[0-9]+$", new AjaxDeletePage()); 
+//        actionMap.put("/post/delete.ajsx", new AjaxDeletePage()); 
         
         //test
         actionMap.put("/post/test", new TestClick());  
@@ -77,6 +87,7 @@ public class BoardController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
     	super.init(config);
     	ctx = config.getServletContext();
+    	boardCtx = (BoardContext) ctx.getAttribute("board-ctx");
     }
 
 	/**
@@ -96,27 +107,45 @@ public class BoardController extends HttpServlet {
 	}
 	
 	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String method = request.getMethod().toUpperCase();
-		System.out.println("[" + method + "]클라이언트로부터 요청이 들어왔음");
-		String uri = stripURI(ctx, request.getRequestURI());
-		
-		System.out.println(method + " uri: " + uri);
-		
-		IAction action = findAction ( uri ); // "/board/xxxx"
-		                                         // /board/doJoin
-		View view = action.process(ctx, request, response);
-		if ( view.isFowward() ) {
-			ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
-		} else if ( view.isRedirect() ) {
-			response.sendRedirect(view.getUri());
-		} else {
-			request.setAttribute("json", view.getJsonData());
-			ctx.getRequestDispatcher("/WEB-INF/jsp/part/json-writer.jsp").forward(request, response);
+		try {
+			String method = request.getMethod().toUpperCase();
+			System.out.println("[" + method + "]클라이언트로부터 요청이 들어왔음");
+			String uri = stripURI(ctx, request.getRequestURI());
+			
+			System.out.println(method + " uri: " + uri);
+			
+			IAction action = findAction ( uri ); // "/board/xxxx"
+			// /board/doJoin
+			View view = action.process(boardCtx, request, response);
+			if ( view.isFowward() ) {
+				ctx.getRequestDispatcher(view.getUri()).forward(request, response);;
+			} else if ( view.isRedirect() ) {
+				String target = request.getParameter("target");
+				System.out.println("왜이건되지"+target);
+				response.sendRedirect(view.getUri());
+			}
+			else {
+				request.setAttribute("json", view.getJsonData());
+				ctx.getRequestDispatcher("/WEB-INF/jsp/part/json-writer.jsp").forward(request, response);
+			}
+			
+		} catch ( Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
+	// /post/read/32883, /post/read/1818
 	private IAction findAction(String uri) {
 		IAction action = actionMap.get(uri);// /board/join
+		
+		Iterator<String> itr = actionMap.keySet().iterator();
+		while ( itr.hasNext()) {
+			String pattern = itr.next();
+			if ( uri.matches(pattern) ) { //post/read/1000
+				return actionMap.get(pattern);
+			}
+		}
+		
 		if ( action == null) {
 			System.out.println("not found: " + uri);
 			action = actionMap.get("_not_found_");

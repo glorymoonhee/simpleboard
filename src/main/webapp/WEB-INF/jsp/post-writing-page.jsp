@@ -10,41 +10,36 @@
 #error {
 	background-color: FF99AA;
 }
-</style>
+</style>  
 <script type="text/javascript">
 var ctxpath = '/simpleboard';
 
+
 function sendPost ( ) {
 	var uri = ctxpath + "/post/write.ajax";
-	/*
-	var params = {title: '', content: ''};
-	params.title = $('#title').val();
-	params.content = $('#content').val();
-	console.log(params);
-	*/
+
 	
-	// VALIDATION
-	/* if ( checkTitle( $('#title').val()) ) {
-		;
-	}
-	if ( checkContent( $('#content').val()) ) {
-		;
-	} */
+   $("form#frmPost").submit(function (){
+	   var formData = new FormData($(this)[0]);
+
+	    $.ajax({
+	        url: uri,
+	        type: 'POST',
+	        data: formData,
+	        async: false,
+	        success: function(response){
+				console.log( response );
+			},
+			error : function ( xhr, status, error ){
+				console.log( xhr, status, error);},
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+
+	    return false;
+   });
 	
-	
-	$.post( uri,
-			$('#frmPost').serialize(),
-			function(response) {
-		console.log("[응답]", response);
-		if(response.success ){
-			// { success: true, nextUrl: '/sssss' }
-			console.log('잘 넣었음');
-			document.location.href = response.nextUrl;
-		} else {
-			// { success: false, cause: 'in login info' }
-			$('#error').html('<p>' + response.cause + '</p>');
-		}
-	});
 }
 
 $(document).ready( function(){
@@ -60,7 +55,8 @@ $(document).ready( function(){
 <form method="post" id="frmPost">
 	제목 : <input type="text" size="20" id="title" name="title"/> <br />
 	내용 : <textarea rows="20" cols="30" id="content" name="content"></textarea>
-	<input type="button" value="완료" id="btnSubmit"/>
+	<div><input type="file" id="files" name="files"></div>
+	<div></div><input type="button" value="완료" id="btnSubmit"/></div>
 </form>
 </body>
 </html>

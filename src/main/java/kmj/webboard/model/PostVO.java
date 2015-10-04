@@ -25,6 +25,16 @@ public class PostVO {
 		this.viewCount = viewCount;
 		this.writer = writer;
 	}
+  
+	
+
+	public PostVO(String title, String content, UserVO writer) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+	}
+
 
 
 	public PostVO(String title2, String content2, String currentTime,
@@ -97,6 +107,14 @@ public class PostVO {
 
 	public void setWriter(UserVO writer) {
 		this.writer = writer;
+	}
+
+
+	@Override
+	public String toString() {
+		return "PostVO [seq=" + seq + ", title=" + title + ", content="
+				+ content + ", creationTime=" + creationTime + ", viewCount="
+				+ viewCount + ", writer=" + writer + "]";
 	}
 	
 	
