@@ -1,5 +1,6 @@
 package kmj.webboard.util;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -41,5 +42,13 @@ public class BoardContext {
 	 */
 	public Map<String, IAction> getActionMap() {
 		return (Map<String, IAction>) ctx.getAttribute("urimapping");
+	}
+	
+	/**
+	 * 업로드되는 파일들을 저장하는 디렉토리를 반환합니다.
+	 * @return
+	 */
+	public File getUploadDir() {
+		return (File) ctx.getAttribute("f.upload.dir");
 	}
 }

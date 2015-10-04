@@ -48,10 +48,11 @@ public class DBPostDao implements IPostDao {
 				//
 				throw new RuntimeException("실패했다");
 			}
+			//checked exception
+			//unchecked exception 
 
 			rs = stmt.getGeneratedKeys(); // 서버쪽에서 insert를 할때 생서오딘 PK들을 담아서 보내줌.
-			/*여기질문있어요
-			 * */
+			
 			rs.next();
 			Integer seq = rs.getInt(1);
 			post.setSeq(seq);

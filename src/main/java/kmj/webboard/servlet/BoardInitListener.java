@@ -1,5 +1,6 @@
 package kmj.webboard.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -50,6 +51,9 @@ public class BoardInitListener implements ServletContextListener {
 		
 		// 2. uri mapping
 		initUris(ctx);
+		
+		// 3. file upload directories
+		ctx.setAttribute("f.upload.dir", new File("d:/tmp"));
 
 		ctx.setAttribute("board-ctx", new BoardContext(ctx));
 
