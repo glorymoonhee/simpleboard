@@ -14,13 +14,19 @@
 <script type="text/javascript">
 var ctxpath = '/simpleboard';
 
+var s = functionName();
+
+function Student () {
+	
+}
+
 
 function sendPost ( ) {
 	var uri = ctxpath + "/post/write.ajax";
 
 	
    $("form#frmPost").submit(function (){
-	   var formData = new FormData($(this)[0]);
+	   var formData = new FormData( this );
 
 	    $.ajax({
 	        url: uri,
@@ -29,6 +35,7 @@ function sendPost ( ) {
 	        async: false,
 	        success: function(response){
 				console.log( response );
+				document.location.href = response.nextUrl;
 			},
 			error : function ( xhr, status, error ){
 				console.log( xhr, status, error);},
@@ -38,13 +45,12 @@ function sendPost ( ) {
 	    });
 
 	    return false;
-   });
+   }).trigger('submit');
 	
 }
 
 $(document).ready( function(){
-	 $('#btnSubmit').click(  sendPost );
-	 
+	$('#btnSubmit').click(  sendPost );
 });
 </script>
 
@@ -52,7 +58,7 @@ $(document).ready( function(){
 <body>
 <jsp:include page="/WEB-INF/jsp/header.jsp"/>
 <div id="error"></div>
-<form method="post" id="frmPost">
+<form method="post" id="frmPost" accept-charset="utf-8">
 	제목 : <input type="text" size="20" id="title" name="title"/> <br />
 	내용 : <textarea rows="20" cols="30" id="content" name="content"></textarea>
 	<div><input type="file" id="files" name="files"></div>
