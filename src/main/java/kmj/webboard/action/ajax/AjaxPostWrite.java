@@ -51,6 +51,7 @@ public class AjaxPostWrite implements IAction {
 		upload.setSizeMax(MAX_FILE_SIZE);
 		upload.setHeaderEncoding("utf-8");
 		
+		String title = null, content = null;
 		try {
 			FileItemIterator itr = upload.getItemIterator(request);
 			while ( itr.hasNext()) {
@@ -58,8 +59,14 @@ public class AjaxPostWrite implements IAction {
 				
 				if ( item.isFormField()) { 
 					String param = item.getFieldName();
-					String value = Streams.asString(item.openStream());
+					String value = Streams.asString(item.openStream(), "utf-8");
 					System.out.println(String.format("normal form value  name:%s, value:%s", param, value));
+					if ( param.equals("title")) {
+						title = value;
+					} else if ( param.equals("content")){
+						content = value;
+					}
+					
 				} else {
 					String dirPath = null;
 					
@@ -68,6 +75,7 @@ public class AjaxPostWrite implements IAction {
 					String encFileName = encodeFileName(filename); // SHA-1
 					
 					if ( "".equals ( filename)) {
+						
 						continue;
 					}
 					System.out.println("new file : " + encFileName + "(" + filename + ") of " + param);
@@ -90,8 +98,8 @@ public class AjaxPostWrite implements IAction {
 			if ( user == null) {
 				makeNoLogin(root, session);
 			} else {
-				String title = request.getParameter("title");
-				String content = request.getParameter("content");
+//				String title = request.getParameter("title");
+//				String content = request.getParameter("content");
 				
 				IPostDao postdao =ctx.getPostDao();
 				PostVO newPost = postdao.insertPost(user,title,content);
@@ -115,10 +123,15 @@ public class AjaxPostWrite implements IAction {
 		} catch (FileUploadException | IOException e) {
 			System.out.println("Error");
 			e.printStackTrace();
-			return Views.REDIRECT("/error");
+			return Views.JSON(createError());
 		}
-		
-		
+	}
+
+	private String createError() {
+		JSONObject json = new JSONObject();
+		json.put("success", Boolean.FALSE);
+		json.put("cause", "too_bit_file");
+		return json.toJSONString();
 		
 	}
 
